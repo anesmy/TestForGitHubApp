@@ -1,4 +1,4 @@
-package org.example.second;
+package org.example;
 
 public class EconomicService {
     public String getAccounts(Long clubId) {

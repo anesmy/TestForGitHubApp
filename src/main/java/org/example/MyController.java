@@ -1,4 +1,4 @@
-package org.example.second;
+package org.example;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
