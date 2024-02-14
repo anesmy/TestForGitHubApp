@@ -19,9 +19,9 @@
                 continue;
             }
             String headerValue = Arrays.stream(headerValues)
-                    .filter(StringUtils::hasLength)
-                    .findFirst()
-                    .orElse("");
+                                        .filter(StringUtils::hasLength)
+                                        .findFirst()
+                                        .orElse("");
 
             if (! headerValue.isBlank()) {
                 return headerValue;
