@@ -13,7 +13,7 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 @RestController
 public class AccountsController {
-    AccountsController economicService;
+    private final EconomicService economicService;
 
     @GetMapping("/{clubId}/accounts")
     public ResponseEntity<RawJson> getAccounts(@PathVariable Long clubId, @RequestParam String name) {
