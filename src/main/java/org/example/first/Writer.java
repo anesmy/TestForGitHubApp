@@ -12,3 +12,4 @@ private void writeDownTasksResult(StopWatch methodStopWatch, List<EconomicsTask>
         results.get(TaskResultStatus.FAILED)
         );
 }
+
