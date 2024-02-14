@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver {
+
     private static final List<String> POSSIBLE_IP_HEADERS = List.of(
             "X-Forwarded-For",
             "HTTP_FORWARDED",
