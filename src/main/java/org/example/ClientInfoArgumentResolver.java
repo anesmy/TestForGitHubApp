@@ -1,39 +1,66 @@
 package org.example;
 
-import org.springframework.web.context.request.NativeWebRequest;
+import com.golfmore.morebox.server.servicediscovery.api.dto.ClientInfo;
+import org.springframework.core.MethodParameter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.support.WebDataBinderFactory;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
-private static final List<String> POSSIBLE_IP_HEADERS = List.of(
-    "X-Forwarded-For",
-    "HTTP_FORWARDED",
-    "HTTP_FORWARDED_FOR",
-    "HTTP_X_FORWARDED",
-    "HTTP_X_FORWARDED_FOR",
-    "HTTP_CLIENT_IP",
-    "HTTP_VIA",
-    "HTTP_X_CLUSTER_CLIENT_IP",
-    "Proxy-Client-IP",
-    "WL-Proxy-Client-IP",
-    "REMOTE_ADDR"
-);
+public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver {
 
-private String getIpAddressFromHeader(NativeWebRequest request) {
-    for (String ipHeader : POSSIBLE_IP_HEADERS) {
-        String[] headerValues = request.getHeaderValues(ipHeader);
-        if (Objects.isNull(headerValues)) {
-            continue;
-        }
-        String headerValue = Arrays.stream(headerValues)
-                                    .filter(StringUtils::hasLength)
-                                    .findFirst()
-                                    .orElse("");
+    private static final List<String> POSSIBLE_IP_HEADERS = List.of(
+            "X-Forwarded-For",
+            "HTTP_FORWARDED",
+            "HTTP_FORWARDED_FOR",
+            "HTTP_X_FORWARDED",
+            "HTTP_X_FORWARDED_FOR",
+            "HTTP_CLIENT_IP",
+            "HTTP_VIA",
+            "HTTP_X_CLUSTER_CLIENT_IP",
+            "Proxy-Client-IP",
+            "WL-Proxy-Client-IP",
+            "REMOTE_ADDR"
+    );
 
-        if (! headerValue.isBlank()) {
-            return headerValue;
-        }
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.getParameterType().equals(ClientInfo.class);
     }
-    return "";
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        String ipAddressFromHeader = getIpAddressFromHeader(webRequest);
+        if (ipAddressFromHeader.contains(":")) {
+            String[] ipAddressWithPort = ipAddressFromHeader.split(":");
+            var ipAddress = ipAddressWithPort[0];
+            var port = ipAddressWithPort[1];
+            return new ClientInfo(ipAddress, Integer.valueOf(port));
+        }
+        return new ClientInfo(ipAddressFromHeader, 0);
+    }
+
+    private String getIpAddressFromHeader(NativeWebRequest request) {
+        for (String ipHeader : POSSIBLE_IP_HEADERS) {
+            String[] headerValues = request.getHeaderValues(ipHeader);
+            if (Objects.isNull(headerValues)) {
+                continue;
+            }
+            String headerValue = Arrays.stream(headerValues)
+                    .filter(StringUtils::hasLength)
+                    .findFirst()
+                    .orElse("");
+
+            if (!headerValue.isBlank()) {
+                return headerValue;
+            }
+        }
+        return "";
+    }
 }
