@@ -47,20 +47,7 @@ public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver
     }
 
     private String getIpAddressFromHeader(NativeWebRequest request) {
-        for (String ipHeader : POSSIBLE_IP_HEADERS) {
-            String[] headerValues = request.getHeaderValues(ipHeader);
-            if (Objects.isNull(headerValues)) {
-                continue;
-            }
-            String headerValue = Arrays.stream(headerValues)
-                    .filter(StringUtils::hasLength)
-                    .findFirst()
-                    .orElse("");
-
-            if (!headerValue.isBlank()) {
-                return headerValue;
-            }
-        }
-        return "";
+        // TODO: get real Ip Address From Header
+        return "ip address";
     }
 }
