@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.golfmore.morebox.getIpAddressFromHeader;
+
 
 public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -45,23 +47,5 @@ public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver
             return new ClientInfo(ipAddress, Integer.valueOf(port));
         }
         return new ClientInfo(ipAddressFromHeader, 0);
-    }
-
-    private String getIpAddressFromHeader(NativeWebRequest request) {
-        for (String ipHeader : POSSIBLE_IP_HEADERS) {
-            String[] headerValues = request.getHeaderValues(ipHeader);
-            if (Objects.isNull(headerValues)) {
-                continue;
-            }
-            String headerValue = Arrays.stream(headerValues)
-                    .filter(StringUtils::hasLength)
-                    .findFirst()
-                    .orElse("");
-
-            if (!headerValue.isBlank()) {
-                return headerValue;
-            }
-        }
-        return "";
     }
 }
