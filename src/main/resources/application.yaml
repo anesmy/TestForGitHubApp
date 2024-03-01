@@ -1,0 +1,8 @@
+assertj:
+  ai:
+    openai:
+      chat:
+        options:
+          model: gpt-3.5-turbo
+          temperature: 0.3
+          top-p: 0.2
