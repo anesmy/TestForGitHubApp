@@ -36,7 +36,7 @@ public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String ipAddressFromHeader = getIpAddressFromHeader(webRequest);
+        String ipAddressFromHeader = getIpAddressFromTheHeader(webRequest);
         if (ipAddressFromHeader.contains(":")) {
             String[] ipAddressWithPort = ipAddressFromHeader.split(":");
             var ipAddress = ipAddressWithPort[0];
@@ -46,7 +46,7 @@ public class ClientInfoArgumentResolver implements HandlerMethodArgumentResolver
         return new ClientInfo(ipAddressFromHeader, 0);
     }
 
-    private String getIpAddressFromHeader(NativeWebRequest request) {
+    private String getIpAddressFromTheHeader(NativeWebRequest request) {
         for (String ipHeader : POSSIBLE_IP_HEADERS) {
             String[] headerValues = request.getHeaderValues(ipHeader);
             if (Objects.isNull(headerValues)) {
