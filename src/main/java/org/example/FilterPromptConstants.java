@@ -1,4 +1,4 @@
-package ltd.clearsolutions.codereviewaiassistant.utils.constants;
+package org.example;
 
 public class FilterPromptConstants {
 
