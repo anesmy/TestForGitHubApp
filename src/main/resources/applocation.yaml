@@ -2,3 +2,6 @@ assertj:
   ai:
     openai:
       api-key: sk-
+      chat:
+        options:
+          model: gpt-4-0125-preview
