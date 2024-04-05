@@ -15,3 +15,4 @@ public class HttpException extends RuntimeException {
         return statusCode;
     }
 }
+
