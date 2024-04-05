@@ -16,4 +16,3 @@ public class HttpException extends RuntimeException {
     }
 }
 
-
