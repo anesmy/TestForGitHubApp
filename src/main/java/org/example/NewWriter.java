@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public class Writer {
+public class NewWriter {
     public void writeDownTasksResult(StopWatch methodStopWatch, List<EconomicsTask> tasks,
                                      Map<TaskResultStatus, List<EconomicsTask>> results) {
         log.info("Total task execution time: {} seconds. " +
