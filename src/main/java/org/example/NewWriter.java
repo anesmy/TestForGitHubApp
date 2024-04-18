@@ -19,7 +19,9 @@ public class NewWriter {
                 tasks.size(),
                 results.get(TaskResultStatus.SUCCESS).size(),
                 results.get(TaskResultStatus.FAILED).size(),
-                results.get(TaskResultStatus.FAILED)
+                results.get(TaskResultStatus.SUCCESS),
+                results.get(TaskResultStatus.SUCCESS).get(0),
+                results.get(TaskResultStatus.SUCCESS).get(1)
         );
     }
 }
